@@ -1,0 +1,23 @@
+.login-keyed-numbers {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
+
+.login-keyed__number {
+  margin: 4rem 2rem; }
+
+.login-input__keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 3rem 3rem; }
+
+.login-input__key {
+  height: 6rem;
+  width: 6rem;
+  border: none;
+  background-color: purple;
+  border-radius: 50%;
+  margin: 2px auto; }
+  .login-input__key--0 {
+    grid-column: 2 / 3; }
