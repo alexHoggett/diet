@@ -1,3 +1,10 @@
+:root {
+  --color-login-primary: #f39237;
+  --color-login-secondary: #bf1363;
+  --color-raisin-black: #191923;
+  --color-baby-powder: #fbfef9;
+  --color-star-command-blue: #0e79b2; }
+
 *,
 *::after,
 *::before {
@@ -10,15 +17,16 @@ html {
   font-size: 62.5%; }
 
 body {
-  background-color: rgba(128, 128, 128, 0.561);
   padding: 1rem 6rem;
   font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;
   min-width: 100vw; }
+  body#login {
+    background-image: linear-gradient(to bottom, var(--color-login-primary), var(--color-login-secondary)); }
 
 .login__container {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
@@ -26,18 +34,56 @@ body {
   flex-direction: column;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  border-radius: 15px;
+  min-height: 40vh;
+  background-color: var(--color-baby-powder);
+  color: var(--color-raisin-black); }
   .login__container > h1 {
-    font-size: 3rem; }
+    font-size: 3rem;
+    margin-bottom: 4rem; }
 
 .login__form {
   display: flex;
   flex-direction: column;
   align-items: center; }
-  .login__form > div {
-    margin-bottom: 10px; }
-  .login__form > div > label {
-    font-size: 3rem; }
 
-.login__register {
-  font-size: 2rem; }
+.login__input {
+  position: relative; }
+  .login__input > label {
+    font-size: 1.6rem;
+    position: absolute;
+    left: 0;
+    pointer-events: none;
+    padding: 1rem 0;
+    transition: all 0.5s; }
+  .login__input > input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.6rem;
+    color: var(--color-raisin-black);
+    margin-bottom: 3rem;
+    border: none;
+    border-bottom: 1px solid var(--color-raisin-black);
+    outline: none;
+    background: transparent; }
+    .login__input > input:focus ~ label,
+    .login__input > input:valid ~ label {
+      transform: translateY(-20px);
+      font-size: 1rem;
+      color: var(--color-star-command-blue); }
+
+.login__button {
+  font-size: 1.6rem;
+  margin: 1.5rem;
+  border: none;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 60%;
+  cursor: pointer; }
+
+.login__register:visited, .login__register:link {
+  font-size: 2rem;
+  text-decoration: none;
+  color: var(--color-star-command-blue);
+  margin-top: 2rem; }

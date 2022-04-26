@@ -1,4 +1,9 @@
-* {
+:root {
+  --color-login-primary: #f39237;
+  --color-login-secondary: #bf1363;
+  --color-raisin-black: #191923;
+  --color-baby-powder: #fbfef9;
+  --color-star-command-blue: #0e79b2;
 }
 
 *,
@@ -15,7 +20,15 @@ html {
 }
 
 body {
-  background-color: rgba(128, 128, 128, 0.561);
+  &#login {
+    // Login page
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-login-primary),
+      var(--color-login-secondary)
+    );
+  }
+
   padding: 1rem 6rem;
   font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;

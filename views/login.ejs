@@ -7,24 +7,22 @@
   <link rel="stylesheet" href="css/style.css">
   <title>Login</title>
 </head>
-<body>
+<body id="login">
   <div class="login__container">
-    <h1>Login:</h1>
+    <h1>Login</h1>
     <% if (messages.error) { %>
       <%= messages.error %>
     <% } %>
-    <form action="/login" method="post" class="login__form">
-      <div class="login__email">
-          <label for="email">Email</label>
+    <form class="login__form" action="/login" method="post">
+      <div class="login__input login__email">
           <input id="email" name="email" type="email" required />
+          <label for="email">Email</label>
       </div>
-      <div class="login__password">
-          <label for="password">Password</label>
+      <div class="login__input login__password">
           <input id="password" name="password" type="password" required />
+          <label for="password">Password</label>
       </div>
-      <div class="login__submit">
-          <button class="login__button" type="submit">Sign in</button>
-      </div>
+      <button class="login__button" type="submit">Sign in</button>
     </form>
     <a class="login__register" href="/register">Register</a>
   </div>
