@@ -1,0 +1,23 @@
+* {
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  background-color: rgba(128, 128, 128, 0.561);
+  padding: 1rem 6rem;
+  font-family: "Nunito Sans", sans-serif;
+  min-height: 100vh;
+  min-width: 100vw;
+}
