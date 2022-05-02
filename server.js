@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
+const mysql = require('mysql')
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
@@ -19,6 +20,20 @@ initialisePassport(
 )
 
 const users = []
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'tenderStem34',
+  database: 'dietapp'
+})
+
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('Connected to the database');
+})
+global.db = db;
 
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false })) // allows us to use req.body etc
@@ -34,8 +49,9 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
 
-app.get('/', checkAuthenticated, (req, res) => {
-  res.render('index.ejs', { name: req.user.name })
+app.get('/', (req, res) => {
+  res.render('index.ejs', { name: 'Alex' })
+  // res.render('index.ejs', { name: req.user.name })
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -57,7 +73,8 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     users.push({
       id: Date.now().toString(),
-      name: req.body.name,
+      firstName: req.body.firstname,
+      lastName: req.body.lastname,
       email: req.body.email,
       password: hashedPassword
     })

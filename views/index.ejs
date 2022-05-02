@@ -4,13 +4,34 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/script.js"></script>
   <title>Diet</title>
 </head>
-<body>
-  The index page
-
+<body id="main">
+  <h1>Hi <%=name%>!</h1>
   <form action="/logout?_method=DELETE" method="POST">
     <button type="submit">Log Out</button>
   </form>
+
+  <div class="add-icon add-icon--animation-show">
+    <img src="./img/plus.svg" alt="Plus sign">
+  </div>
+
+
+  <div class="stat__container">
+    <div class="stat-label stat-label--calories">
+      <p>Today's Calories: </p><span class="stat__number">1230kcal</span>
+    </div>
+    <div class="stat-label stat-label--protein">
+      <p>Today's Protein: </p><span class="stat__number">45g</span>
+    </div>
+    <div class="stat-label stat-label--weekly">
+      <p>Weekly: </p><span class="stat__number">12323</span>
+    </div>
+    <div class="stat-label stat-label--monthly">
+      <p>Monthly: </p><span class="stat__number">123431</span>
+    </div>
+  </div>
 </body>
 </html>

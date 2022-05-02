@@ -21,10 +21,10 @@ body {
   font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;
   min-width: 100vw; }
-  body#login {
+  body#login, body#register, body#main {
     background-image: linear-gradient(to bottom, var(--color-login-primary), var(--color-login-secondary)); }
 
-.login__container {
+.form__container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -39,25 +39,25 @@ body {
   min-height: 40vh;
   background-color: var(--color-baby-powder);
   color: var(--color-raisin-black); }
-  .login__container > h1 {
+  .form__container > h1 {
     font-size: 3rem;
     margin-bottom: 4rem; }
 
-.login__form {
+.form__inputs {
   display: flex;
   flex-direction: column;
   align-items: center; }
 
-.login__input {
+.form__input {
   position: relative; }
-  .login__input > label {
+  .form__input > label {
     font-size: 1.6rem;
     position: absolute;
     left: 0;
     pointer-events: none;
     padding: 1rem 0;
     transition: all 0.5s; }
-  .login__input > input {
+  .form__input > input {
     width: 100%;
     padding: 10px 0;
     font-size: 1.6rem;
@@ -67,13 +67,13 @@ body {
     border-bottom: 1px solid var(--color-raisin-black);
     outline: none;
     background: transparent; }
-    .login__input > input:focus ~ label,
-    .login__input > input:valid ~ label {
+    .form__input > input:focus ~ label,
+    .form__input > input:valid ~ label {
       transform: translateY(-20px);
       font-size: 1rem;
       color: var(--color-star-command-blue); }
 
-.login__button {
+.form__button {
   font-size: 1.6rem;
   margin: 1.5rem;
   border: none;
@@ -82,8 +82,90 @@ body {
   width: 60%;
   cursor: pointer; }
 
-.login__register:visited, .login__register:link {
+.form__link:visited, .form__link:link {
   font-size: 2rem;
   text-decoration: none;
   color: var(--color-star-command-blue);
   margin-top: 2rem; }
+
+.stat__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  justify-items: center;
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  min-height: 20vh;
+  width: 80vw;
+  border-radius: 10px;
+  border: 2px solid var(--color-raisin-black);
+  background-color: rgba(255, 235, 205, 0.76); }
+
+.stat-label {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .stat-label--protein {
+    grid-row: 2 / 3; }
+  .stat-label--weekly {
+    grid-column: 2 / 3; }
+  .stat-label--monthly {
+    grid-column: 3 / 4; }
+  .stat-label > p {
+    color: var(--color-raisin-black);
+    font-size: 1.8rem;
+    margin-bottom: 8px; }
+
+.stat__number {
+  font-size: 2.5rem;
+  color: var(--color-star-command-blue); }
+
+.add-icon {
+  display: flex;
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: var(--color-raisin-black);
+  display: inline-block;
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transform-origin: center; }
+  .add-icon > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+  .add-icon--animation-show {
+    animation: appearRotation 0.5s cubic-bezier(1, 0.14, 0.68, 1.04);
+    animation-fill-mode: forwards; }
+  .add-icon--animation-hide {
+    animation: disappearRotation 0.5s cubic-bezier(1, 0.14, 0.68, 1.04);
+    animation-fill-mode: forwards; }
+
+@keyframes disappearRotation {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%); }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2); }
+  100% {
+    transform: translate(-50%, -50%) scale(0.3) rotate(300deg);
+    opacity: 0; } }
+
+@keyframes appearRotation {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3) rotate(300deg);
+    opacity: 0; }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%); } }

@@ -1,0 +1,28 @@
+@keyframes disappearRotation {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(0.3) rotate(300deg);
+    opacity: 0;
+  }
+}
+
+@keyframes appearRotation {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3) rotate(300deg);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}

@@ -8,23 +8,23 @@
   <title>Login</title>
 </head>
 <body id="login">
-  <div class="login__container">
+  <div class="form__container">
     <h1>Login</h1>
     <% if (messages.error) { %>
-      <%= messages.error %>
+      <h3><%= messages.error %></h3>
     <% } %>
-    <form class="login__form" action="/login" method="post">
-      <div class="login__input login__email">
+    <form class="form__inputs" action="/login" method="post">
+      <div class="form__input form__email">
           <input id="email" name="email" type="email" required />
           <label for="email">Email</label>
       </div>
-      <div class="login__input login__password">
+      <div class="form__input form__password">
           <input id="password" name="password" type="password" required />
           <label for="password">Password</label>
       </div>
-      <button class="login__button" type="submit">Sign in</button>
+      <button class="form__button" type="submit">Sign in</button>
     </form>
-    <a class="login__register" href="/register">Register</a>
+    <a class="form__link" href="/register">Register</a>
   </div>
 </body>
 </html>

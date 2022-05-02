@@ -1,8 +1,8 @@
 /// ///// ///// ///// ///// ///// ///// ///// //
-/// // Login
+/// // login // registration form
 /// ///// ///// ///// ///// ///// ///// ///// //
 
-.login {
+.form {
   &__container {
     position: absolute;
     top: 50%;
@@ -27,7 +27,7 @@
     }
   }
 
-  &__form {
+  &__inputs {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,7 +74,7 @@
     cursor: pointer;
   }
 
-  &__register {
+  &__link {
     &:visited,
     &:link {
       font-size: 2rem;
@@ -82,5 +82,98 @@
       color: var(--color-star-command-blue);
       margin-top: 2rem;
     }
+  }
+}
+
+/// ///// ///// ///// ///// ///// ///// ///// //
+/// // display stats
+/// ///// ///// ///// ///// ///// ///// ///// //
+
+.stat {
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    justify-items: center;
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    min-height: 20vh;
+    width: 80vw;
+    border-radius: 10px;
+    border: 2px solid var(--color-raisin-black);
+    background-color: rgba(255, 235, 205, 0.76);
+  }
+
+  &-label {
+    align-self: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--calories {
+    }
+    &--protein {
+      grid-row: 2 / 3;
+    }
+    &--weekly {
+      grid-column: 2 / 3;
+    }
+    &--monthly {
+      grid-column: 3 / 4;
+    }
+
+    & > p {
+      color: var(--color-raisin-black);
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__number {
+    font-size: 2.5rem;
+    color: var(--color-star-command-blue);
+  }
+}
+
+/// ///// ///// ///// ///// ///// ///// ///// //
+/// // add icon
+/// ///// ///// ///// ///// ///// ///// ///// //
+
+.add-icon {
+  display: flex;
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: var(--color-raisin-black);
+  display: inline-block;
+  // font-size: 3rem;
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transform-origin: center;
+
+  & > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &--animation-show {
+    animation: appearRotation 0.5s cubic-bezier(1, 0.14, 0.68, 1.04);
+    animation-fill-mode: forwards;
+  }
+
+  &--animation-hide {
+    animation: disappearRotation 0.5s cubic-bezier(1, 0.14, 0.68, 1.04);
+    animation-fill-mode: forwards;
   }
 }
