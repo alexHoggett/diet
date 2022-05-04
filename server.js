@@ -6,20 +6,12 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
-const mysql = require('mysql')
+const mysql = require('mysql2')
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 
-const initialisePassport = require('./passport-config')
-initialisePassport(
-  passport,
-  email => users.find(user => user.email === email),
-  id => users.find(user => user.id === id)
-)
-
-const users = []
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -34,6 +26,16 @@ db.connect((err) => {
   console.log('Connected to the database');
 })
 global.db = db;
+
+
+// const getEmail = async function(email, callback) {
+//   let sqlQuery = `SELECT * FROM users WHERE email = ?`
+//   const results = await db.promise().query(sqlQuery, [email]);
+//   return results;
+// }
+
+const initialisePassport = require('./passport-config')
+initialisePassport(passport)
 
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false })) // allows us to use req.body etc
@@ -50,8 +52,9 @@ app.use(methodOverride('_method'))
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.render('index.ejs', { name: 'Alex' })
-  // res.render('index.ejs', { name: req.user.name })
+  // add checkAuthenticated when finished building
+  // res.render('index.ejs', { name: req.user.firstname })
+  res.render('index.ejs', { name: 'alex' })
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -69,19 +72,17 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 })
 
 app.post('/register', checkNotAuthenticated, async (req, res) => {
-  try{
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    users.push({
-      id: Date.now().toString(),
-      firstName: req.body.firstname,
-      lastName: req.body.lastname,
-      email: req.body.email,
-      password: hashedPassword
+    let sqlQuery = `INSERT INTO users (firstname, lastname, email, password)
+                    VALUES (?, ?, ?, ?)`
+    let newUser = [req.body.firstname, req.body.lastname, req.body.email, hashedPassword]
+    db.query(sqlQuery, newUser, (err, result) => {
+      if (err){
+        res.redirect('/register')
+      } else{
+        res.redirect('/login')
+      }
     })
-    res.redirect('/login')
-  } catch {
-    res.redirect('/register')
-  }
 })
 
 app.delete('/logout', (req, res) => {

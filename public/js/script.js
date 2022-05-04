@@ -33,17 +33,15 @@ const addIcon = document.querySelector('.add-icon');
 
 addIcon.addEventListener('click', (e) => {
   if (addIcon.classList.contains('add-icon--animation-show')){
+    // hide button
     addIcon.classList.remove('add-icon--animation-show');
-    window.setTimeout(() => {
-      addIcon.classList.add('add-icon--animation-hide')
-    }, 50);
+    addIcon.classList.add('add-icon--animation-hide')
     return;
   }
 
+  // show button
   addIcon.classList.remove('add-icon--animation-hide');
-  window.setTimeout(() => {
-    addIcon.classList.add('add-icon--animation-show');
-  }, 50);
+  addIcon.classList.add('add-icon--animation-show');
 })
 
 
