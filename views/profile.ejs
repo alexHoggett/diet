@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Register</title>
+</head>
+<body id="profile">
+  <div class="form__container">
+    <h1>Update</h1>
+    <% if (messages.error) { %>
+      <h3><%= messages.error %></h3>
+    <% } %>
+    <form class="form__inputs" action="/update-profile" method="post">
+      <div class="form__input">
+        <input id="firstname" name="firstname" type="text" value="<%=firstname%>" required />
+        <label for="firstname">Firstname</label>
+      </div>
+      <div class="form__input">
+        <input id="lastname" name="lastname" type="text" value="<%=lastname%>" required />
+        <label for="lastname">Lastname</label>
+      </div>
+      <div class="form__input form__email">
+          <input id="email" name="email" type="email" value="<%=email%>" required />
+          <label for="email">Email</label>
+      </div>
+      <button class="form__button" type="submit">Update</button>
+    </form>
+  </div>
+</body>
+</html>

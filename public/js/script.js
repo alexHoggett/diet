@@ -32,14 +32,26 @@
 const addIcon = document.querySelector('.add-icon');
 
 addIcon.addEventListener('click', (e) => {
+  const panels = document.querySelectorAll('.panel');
   if (addIcon.classList.contains('add-icon--animation-show')){
     // hide button
+    // hide panels first
+    panels.forEach(panel => {
+      panel.classList.remove('fade-in');
+      panel.classList.add('fade-out');
+    })
+
+    // then button
     addIcon.classList.remove('add-icon--animation-show');
     addIcon.classList.add('add-icon--animation-hide')
     return;
   }
 
   // show button
+  panels.forEach(panel => {
+    panel.classList.remove('fade-out');
+    panel.classList.add('fade-in');
+  })
   addIcon.classList.remove('add-icon--animation-hide');
   addIcon.classList.add('add-icon--animation-show');
 })

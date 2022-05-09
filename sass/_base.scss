@@ -4,6 +4,7 @@
   --color-raisin-black: #191923;
   --color-baby-powder: #fbfef9;
   --color-star-command-blue: #0e79b2;
+  --color-rgba-star-command-blue: 14, 121, 178;
 }
 
 *,
@@ -22,7 +23,7 @@ html {
 body {
   &#login,
   &#register,
-  &#main {
+  &#profile {
     // Login page
     background-image: linear-gradient(
       to bottom,
@@ -31,8 +32,22 @@ body {
     );
   }
 
-  padding: 1rem 6rem;
+  &#main {
+    background-color: var(--color-baby-powder);
+  }
+
+  padding: 3rem 3rem;
   font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;
   min-width: 100vw;
+}
+
+.container {
+  display: grid;
+  max-width: 100vw;
+  max-height: 100vh;
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 8px;
+  row-gap: 8px;
 }

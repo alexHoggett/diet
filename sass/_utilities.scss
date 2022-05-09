@@ -1,0 +1,12 @@
+.link {
+  &:link,
+  &:visited,
+  &:active {
+    text-decoration: none;
+    // color: var(--color-raisin-black);
+  }
+}
+
+.user-link {
+  color: var(--color-login-primary);
+}

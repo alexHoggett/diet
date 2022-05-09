@@ -90,6 +90,28 @@ app.delete('/logout', (req, res) => {
   res.redirect('login')
 })
 
+app.get('/profile', checkAuthenticated, (req, res) => {
+  res.render('profile.ejs', req.user);
+})
+
+app.post('/update-profile', checkAuthenticated, (req, res) => {
+  console.log('params', req.body.firstname) // new data
+  console.log('body', req.user) // user data
+
+  let sqlQuery = `UPDATE users 
+                  SET firstname = ?, lastname = ?, email = ?
+                  WHERE user_id = ?;`
+
+  let userData = [req.body.firstname, req.body.lastname, req.body.email, req.user.user_id]
+  db.query(sqlQuery, userData, (err, result) => {
+    if (err){
+      res.redirect('/profile')
+    } else{
+      res.redirect('/')
+    }
+  })
+})
+
 function checkAuthenticated(req, res, next){
   if (req.isAuthenticated()){
     return next()
