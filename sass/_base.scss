@@ -5,6 +5,8 @@
   --color-baby-powder: #fbfef9;
   --color-star-command-blue: #0e79b2;
   --color-rgba-star-command-blue: 14, 121, 178;
+
+  --gutter: 8px;
 }
 
 *,
@@ -48,6 +50,6 @@ body {
   max-height: 100vh;
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(12, 1fr);
-  column-gap: 8px;
-  row-gap: 8px;
+  column-gap: var(--gutter);
+  row-gap: var(--gutter);
 }

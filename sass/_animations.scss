@@ -29,8 +29,7 @@
 
 @keyframes fadeIn {
   0% {
-    rotate: 90deg;
-    scale: 0.2;
+    opacity: 0;
   }
 
   100% {
@@ -43,8 +42,6 @@
     opacity: 1;
   }
   100% {
-    rotate: 90deg;
-    // scale: 0.2;
     opacity: 0;
   }
 }

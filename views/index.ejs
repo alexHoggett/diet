@@ -16,9 +16,11 @@
   <!-- <form action="/logout?_method=DELETE" method="POST">
     <button type="submit">Log Out</button>
   </form> -->
-  <div class="add-icon add-icon--animation-show">
-    <div class="add-icon__inner">
-      <img src="./img/SVG/plus.svg" alt="Plus sign">
+  <div class="add-icon__container">
+    <div class="add-icon add-icon--animation-show">
+      <div class="add-icon__inner">
+        <img src="./img/SVG/plus.svg" alt="Plus sign">
+      </div>
     </div>
   </div>
 
@@ -33,7 +35,33 @@
   <div class="panel panel__protein">Protein</div>
   <div class="panel panel__weekly">Weekly</div>
   <div class="panel panel__nutrition">Nutritional info</div>
+
+  <form autocomplete="off" class="food-search">
+    <input class="food-search__input" type="text" name="search" id="search"/>
+    <div id="food-search__results">
+      <div class="food-search__item">
+        <img class="food-search__item__img" src="" alt="">
+        <div class="food-search__item__text"></div>
+      </div>
+      <div class="food-search__item">
+        <img class="food-search__item__img" src="" alt="">
+        <div class="food-search__item__text"></div>
+      </div>
+      <div class="food-search__item">
+        <img class="food-search__item__img" src="" alt="">
+        <div class="food-search__item__text"></div>
+      </div>
+      <div class="food-search__item">
+        <img class="food-search__item__img" src="" alt="">
+        <div class="food-search__item__text"></div>
+      </div>
+      <div class="food-search__item">
+        <img class="food-search__item__img" src="" alt="">
+        <div class="food-search__item__text"></div>
+      </div>
+    </div>
+  </form>
   
-  <div class="progress-bar panel"></div>
+  <div class="progress-bar"></div>
 </body>
 </html>

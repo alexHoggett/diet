@@ -56,4 +56,19 @@ addIcon.addEventListener('click', (e) => {
   addIcon.classList.add('add-icon--animation-show');
 })
 
+const foodSearchInput = document.querySelector('.food-search__input');
+const results = document.querySelector('#result');
+
+foodSearchInput.addEventListener('keyup', async function(e){
+  console.log(foodSearchInput.value);
+  console.log(e);
+  if (foodSearchInput.value !== "" && e.key !== 'Backspace'){
+    console.log('test');
+  }
+  e.preventDefault();
+  let response = await fetch(`http://localhost:3000/api/${foodSearchInput.value}`);
+  let data = await response.json();
+  console.log(data);
+  if (data.common.length !== 0) document.querySelector('.food-result').src=data.common[0].photo.thumb;
+})
 

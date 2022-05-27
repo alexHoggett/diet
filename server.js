@@ -11,6 +11,7 @@ const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
+const axios = require('axios')
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -35,6 +36,7 @@ global.db = db;
 // }
 
 const initialisePassport = require('./passport-config')
+const res = require('express/lib/response')
 initialisePassport(passport)
 
 app.set('view-engine', 'ejs')
@@ -110,6 +112,30 @@ app.post('/update-profile', checkAuthenticated, (req, res) => {
       res.redirect('/')
     }
   })
+})
+
+app.get('/api/:term', (req, res) => {
+  console.log('tasked')
+  const options = {
+    method: 'GET',
+    url: `https://trackapi.nutritionix.com/v2/search/instant`,
+    params: {
+      query: req.params.term,
+      branded: true,
+      common: true
+    },
+    headers: {
+      'x-app-id': 'c4fd75a8',
+      'x-app-key': '3ca63844fb74f6991f1b1f50d3038cbc',
+      'x-remote-user-id': '0'
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    res.send(response.data);
+  }).catch(function (error) {
+    res.send(error);
+  });
 })
 
 function checkAuthenticated(req, res, next){
