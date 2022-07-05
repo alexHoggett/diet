@@ -261,8 +261,16 @@ body {
 .add-food__img {
   width: 20rem; }
 
+.add-food__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
 .add-food__edit {
-  flex: 1; }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
 
 .food-search {
   position: relative; }

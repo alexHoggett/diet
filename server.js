@@ -147,7 +147,7 @@ app.get('/api/food-info/:name', (req, res) => {
     method: 'POST',
     url: `https://trackapi.nutritionix.com/v2/natural/nutrients`,
     data: {
-      'query': `${req.params.name} grams`
+      'query': `${req.params.name} 1 gram`
     },
     headers: {
       'x-app-id': 'c4fd75a8',

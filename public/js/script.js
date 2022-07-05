@@ -8,10 +8,14 @@ $(document).ready(function(){
   const searchResults = $('.food-search__item');
   const addFoodContainer = $('.add-food__container');
   const selectedFoodPhoto = $('.add-food__img');
+  const foodItemCals = $('.add-food__cals');
+  const foodItemProt = $('.add-food__protein');
+
+  let calPerGram = 0;
+  let protPerGram = 0;
 
 
   function hideSearchResults() {
-    console.log('yay');
     if(!foodSearchResultsContainer.hasClass('food-search__results--hidden')){
       foodSearchResultsContainer.addClass('food-search__results--hidden');
     }
@@ -60,15 +64,49 @@ $(document).ready(function(){
   searchResults.click(async function(e){
     // get the food name of item clicked
     const foodName = e.currentTarget.getAttribute('data-name');
-    // const metric
+    // const metric = $('input[name="metric"]:checked').attr('id');
 
     let response = await fetch(`http://localhost:3000/api/food-info/${foodName}`);
     let data = await response.json();
-    console.log(data.foods[0].photo.highres);
     selectedFoodPhoto[0].src = data.foods[0].photo.highres;
+    foodItemCals.text('0');
+    foodItemProt.text('0');
+    calPerGram = data.foods[0].nf_calories;
+    protPerGram = data.foods[0].nf_protein;
+    updateFoodInfo();
   });
 
+  $('.add-food__units input').on('click', updateFoodInfo);
+  $('#number').on('input', updateFoodInfo);
 
+  function updateFoodInfo(){
+    console.log('fired');
+    const metric = $("input[type='radio'][name='metric']:checked")[0].getAttribute('id');
+    console.log(metric);
+    let cals = 0;
+    let protein = 0;
+    const quantity = $('#number').val();
+    if (metric == 'grams'){
+      cals = quantity * calPerGram;
+      protein = quantity * protPerGram;
+    } else if (metric == 'cup'){
+      cals = 128 * quantity * calPerGram;
+      protein = 128 * quantity * protPerGram;
+    } else if (metric == 'tbsp'){
+      cals = 14.79 * quantity * calPerGram;
+      protein = 14.79 * quantity * protPerGram;
+    } else if (metric == 'tsp'){
+      cals = 4.2 * quantity * calPerGram;
+      protein = 4.2 * quantity * protPerGram;
+    } else if (metric == 'ml'){
+      cals = 1 * quantity * calPerGram;
+      protein = 1 * quantity * protPerGram;
+    }
+    foodItemCals.text(cals);
+    foodItemProt.text(protein);
+  }
+
+  
 });
 
 
