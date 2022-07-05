@@ -1,74 +1,76 @@
 'use strict';
 
-/// // ///// // ///// // ///// // ///// // ///// // //
-/// Was for number login but no longer used
-/// // ///// // ///// // ///// // ///// // ///// // //
+$(document).ready(function(){
+  const addIcon = $('.add-icon');
+  const panels = $('.panel');
+  const foodSearchResultsContainer = $('.food-search__results');
+  const foodSearchInput = $('.food-search__input');
+  const searchResults = $('.food-search__item');
+  const addFoodContainer = $('.add-food__container');
+  const selectedFoodPhoto = $('.add-food__img');
 
-// const displayNumbers = document.querySelector('.login-keyed-numbers');
 
-// const inputKeys = document.querySelector('.login-input__keys');
-// let numbersInputted = 0;
-
-// inputKeys.addEventListener('click', (e) => {
-//   const clicked = e.target.closest('button');
-//   console.log(clicked);
-
-//   if (clicked.classList.contains('login-input__key--clear')){
-//     // select all blanks
-//     const blanks = document.querySelectorAll('.login-keyed__number');
-//     blanks.forEach((blank => {
-//       blank.innerHTML = '_';
-//     }));
-//     numbersInputted = 0;
-//   } else if (numbersInputted < 4){
-//     // select next blank number
-//     const nextBlank = document.querySelector(`.login-keyed__number--${numbersInputted + 1}`);
-//     //update to number selected
-//     nextBlank.innerHTML = clicked.dataset.value;
-//     numbersInputted++;
-//   }
-// });
-
-const addIcon = document.querySelector('.add-icon');
-
-addIcon.addEventListener('click', (e) => {
-  const panels = document.querySelectorAll('.panel');
-  if (addIcon.classList.contains('add-icon--animation-show')){
-    // hide button
-    // hide panels first
-    panels.forEach(panel => {
-      panel.classList.remove('fade-in');
-      panel.classList.add('fade-out');
-    })
-
-    // then button
-    addIcon.classList.remove('add-icon--animation-show');
-    addIcon.classList.add('add-icon--animation-hide')
-    return;
+  function hideSearchResults() {
+    console.log('yay');
+    if(!foodSearchResultsContainer.hasClass('food-search__results--hidden')){
+      foodSearchResultsContainer.addClass('food-search__results--hidden');
+    }
   }
 
-  // show button
-  panels.forEach(panel => {
-    panel.classList.remove('fade-out');
-    panel.classList.add('fade-in');
-  })
-  addIcon.classList.remove('add-icon--animation-hide');
-  addIcon.classList.add('add-icon--animation-show');
-})
-
-const foodSearchInput = document.querySelector('.food-search__input');
-const results = document.querySelector('#result');
-
-foodSearchInput.addEventListener('keyup', async function(e){
-  console.log(foodSearchInput.value);
-  console.log(e);
-  if (foodSearchInput.value !== "" && e.key !== 'Backspace'){
-    console.log('test');
+  function showSearchResults() {
+    if(foodSearchResultsContainer.hasClass('food-search__results--hidden')){
+      foodSearchResultsContainer.removeClass('food-search__results--hidden');
+    }
   }
-  e.preventDefault();
-  let response = await fetch(`http://localhost:3000/api/${foodSearchInput.value}`);
-  let data = await response.json();
-  console.log(data);
-  if (data.common.length !== 0) document.querySelector('.food-result').src=data.common[0].photo.thumb;
-})
+
+  addIcon.click(function(){
+    if (addIcon.hasClass('add-icon--animation-show')){
+      panels.removeClass('fade-in');
+      panels.addClass('fade-out');
+      addIcon.removeClass('add-icon--animation-show');
+      addIcon.addClass('add-icon--animation-hide');
+      return;
+    }
+
+    panels.removeClass('fade-out');
+    panels.addClass('fade-in');
+    addIcon.removeClass('add-icon--animation-hide');
+    addIcon.addClass('add-icon--animation-show');
+  });
+
+  foodSearchInput.keyup(async function(e){
+    e.preventDefault();
+    // show and hide results
+    if (foodSearchInput.val().length <= 1){
+      if (e.key == "Backspace" && foodSearchInput.val().length < 1) hideSearchResults();
+      else showSearchResults();
+    }
+
+    let response = await fetch(`http://localhost:3000/api/searchbar-result/${foodSearchInput.val()}`);
+    let data = await response.json();
+    if (data.common.length > 0){
+      for(let i = 0; i < searchResults.length; i++){
+        searchResults[i].children[0].src = data.common[i].photo.thumb;
+        searchResults[i].children[1].innerHTML = data.common[i].food_name;
+        searchResults[i].dataset.name = data.common[i].food_name;
+      }
+    }
+  });
+
+  searchResults.click(async function(e){
+    // get the food name of item clicked
+    const foodName = e.currentTarget.getAttribute('data-name');
+    // const metric
+
+    let response = await fetch(`http://localhost:3000/api/food-info/${foodName}`);
+    let data = await response.json();
+    console.log(data.foods[0].photo.highres);
+    selectedFoodPhoto[0].src = data.foods[0].photo.highres;
+  });
+
+
+});
+
+
+
 

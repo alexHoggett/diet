@@ -86,60 +86,6 @@
 }
 
 /// ///// ///// ///// ///// ///// ///// ///// //
-/// // display stats
-/// ///// ///// ///// ///// ///// ///// ///// //
-
-.stat {
-  &__container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    justify-items: center;
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    min-height: 20vh;
-    width: 80vw;
-    border-radius: 10px;
-    border: 2px solid var(--color-raisin-black);
-    background-color: rgba(255, 235, 205, 0.76);
-  }
-
-  &-label {
-    align-self: center;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    &--calories {
-    }
-    &--protein {
-      grid-row: 2 / 3;
-    }
-    &--weekly {
-      grid-column: 2 / 3;
-    }
-    &--monthly {
-      grid-column: 3 / 4;
-    }
-
-    & > p {
-      color: var(--color-raisin-black);
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-  }
-
-  &__number {
-    font-size: 2.5rem;
-    color: var(--color-star-command-blue);
-  }
-}
-
-/// ///// ///// ///// ///// ///// ///// ///// //
 /// // add icon
 /// ///// ///// ///// ///// ///// ///// ///// //
 
@@ -193,15 +139,6 @@
   &--animation-hide {
     animation: disappearRotation 0.5s cubic-bezier(1, 0.14, 0.68, 1.04);
     animation-fill-mode: forwards;
-  }
-}
-
-/// ///// ///// ///// ///// ///// ///// ///// //
-/// // add section
-/// ///// ///// ///// ///// ///// ///// ///// //
-
-.add {
-  &__container {
   }
 }
 
@@ -342,13 +279,58 @@
 }
 
 /// ///// ///// ///// ///// ///// ///// ///// //
-/// // progress-bar
+/// // add-food
 /// ///// ///// ///// ///// ///// ///// ///// //
 
-.progress-bar {
-  grid-column: 3 / 11;
-  grid-row: 8 / 9;
-  background-color: lightblue;
+.add-food{
+  &__container{
+    grid-column: 3 / 12;
+    grid-row: 2 / 8;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+    padding: 3rem;
+  }
+
+  &__stats{
+    display: flex;
+    flex-direction: row;
+    font-size: 3rem;
+  }
+
+  &__cals{
+    margin-right: 4rem;
+    &::after{
+      content: "Kcal";
+      margin-left: 4px;
+      font-size: 1.5rem;
+      color: var(--color-login-primary);
+    }
+  }
+
+  &__protein{
+    &::after{
+      content: "g";
+      margin-left: 4px;
+      font-size: 1.5rem;
+      color: var(--color-login-primary);
+    }
+  }
+
+  &__img{
+    width: 20rem;
+  }
+
+  &__add{
+
+  }
+
+  &__edit{
+    flex: 1;
+  }
+
 }
 
 /// ///// ///// ///// ///// ///// ///// ///// //
@@ -356,7 +338,67 @@
 /// ///// ///// ///// ///// ///// ///// ///// //
 
 .food-search{
+  position: relative;
+  // display: none;
+
   &__input{
-    width: 30rem;
+    margin-bottom: 0 !important;
+  }
+
+  &__tabs{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 1.6rem;
+
+    & > *:hover{
+      background-color: lightblue;
+      cursor: pointer;
+    }
+  }
+
+  &__tab{
+    width: 50%;
+    text-align: center;
+    &__common{
+
+    }
+    &__branded{
+
+    }
+  }
+
+  &__results{
+    border: 1px solid lightblue;
+    position: absolute;
+    width: 100%;
+
+    &--hidden{
+      display: none;
+    }
+  }
+
+  &__item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover{
+      background-color: lightblue;
+    }
+
+    &__img{
+      width: 3rem;
+      max-height: 3rem;
+      display: inline-block;
+    }
+
+    &__text{
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 200;
+      margin-left: 1rem;
+    }
   }
 }

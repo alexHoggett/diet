@@ -114,15 +114,19 @@ app.post('/update-profile', checkAuthenticated, (req, res) => {
   })
 })
 
-app.get('/api/:term', (req, res) => {
-  console.log('tasked')
+app.post('/add-food', checkAuthenticated, (req, res) => {
+  
+})
+
+app.get('/api/searchbar-result/:term', (req, res) => {
   const options = {
     method: 'GET',
     url: `https://trackapi.nutritionix.com/v2/search/instant`,
     params: {
       query: req.params.term,
       branded: true,
-      common: true
+      common: true,
+      detailed: true
     },
     headers: {
       'x-app-id': 'c4fd75a8',
@@ -136,6 +140,27 @@ app.get('/api/:term', (req, res) => {
   }).catch(function (error) {
     res.send(error);
   });
+})
+
+app.get('/api/food-info/:name', (req, res) => {
+  const options = {
+    method: 'POST',
+    url: `https://trackapi.nutritionix.com/v2/natural/nutrients`,
+    data: {
+      'query': `${req.params.name} grams`
+    },
+    headers: {
+      'x-app-id': 'c4fd75a8',
+      'x-app-key': '3ca63844fb74f6991f1b1f50d3038cbc',
+      'x-remote-user-id': '0'
+    }
+  };
+
+  axios.request(options).then(function (response) {
+    res.send(response.data)
+  }).catch(function (error) {
+    res.send(error)
+  })
 })
 
 function checkAuthenticated(req, res, next){

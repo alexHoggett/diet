@@ -1,67 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fauna+One&family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet"> 
-  <script defer src="js/script.js"></script>
-  <title>Diet</title>
-</head>
-<body id="main" class="container">
-  <h1 class="hello">Hi,<br><a href="profile" class="link user-link"><%=name%></a></h1>
-  <!-- <form action="/logout?_method=DELETE" method="POST">
-    <button type="submit">Log Out</button>
-  </form> -->
-  <div class="add-icon__container">
-    <div class="add-icon add-icon--animation-show">
-      <div class="add-icon__inner">
-        <img src="./img/SVG/plus.svg" alt="Plus sign">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fauna+One&family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet"> 
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script defer src="js/script.js"></script>
+    <title>Diet</title>
+  </head>
+  <body id="main" class="container">
+    <h1 class="hello">Hi,<br><a href="profile" class="link user-link"><%=name%></a></h1>
+    <!-- <form action="/logout?_method=DELETE" method="POST">
+      <button type="submit">Log Out</button>
+    </form> -->
+    <div class="add-icon__container">
+      <div class="add-icon add-icon--animation-show">
+        <div class="add-icon__inner">
+          <img src="./img/SVG/plus.svg" alt="Plus sign">
+        </div>
       </div>
     </div>
-  </div>
 
-  <nav class="sidenav">
-    <div class="sidenav__container">
-      <a href="/" class="sidenav__item sidenav__item--active"><img src="/img/SVG/001-home.svg" alt="Home"></a>
-      <a href="profile" class="sidenav__item"><img src="/img/SVG/114-user.svg" alt="User profile"></a>
-      <a href="stats" class="sidenav__item"><img src="/img/SVG/156-stats-dots.svg" alt="Stats"></a>
-  </nav>
+    <nav class="sidenav">
+      <div class="sidenav__container">
+        <a href="/" class="sidenav__item sidenav__item--active"><img src="/img/SVG/001-home.svg" alt="Home"></a>
+        <a href="profile" class="sidenav__item"><img src="/img/SVG/114-user.svg" alt="User profile"></a>
+        <a href="stats" class="sidenav__item"><img src="/img/SVG/156-stats-dots.svg" alt="Stats"></a>
+    </nav>
 
-  <div class="panel panel__calories">Calories</div>
-  <div class="panel panel__protein">Protein</div>
-  <div class="panel panel__weekly">Weekly</div>
-  <div class="panel panel__nutrition">Nutritional info</div>
-
-  <form autocomplete="off" class="food-search">
-    <input class="food-search__input" type="text" name="search" id="search"/>
-    <div id="food-search__results">
-      <div class="food-search__item">
-        <img class="food-search__item__img" src="" alt="">
-        <div class="food-search__item__text"></div>
+    <div class="panel panel__calories">Calories</div>
+    <div class="panel panel__protein">Protein</div>
+    <div class="panel panel__weekly">Weekly</div>
+    <div class="panel panel__nutrition">Nutritional info</div>
+    
+    <div class="add-food__container">
+      <div class="add-food__add">
+        <form autocomplete="off" class="food-search">
+          <div class="form__input">
+              <input class="food-search__input" id="search" name="search" type="text" required />
+              <label for="search">Food:</label>
+          </div>
+          <div class="food-search__results food-search__results--hidden">
+            <div class="food-search__tabs">
+              <div class="food-search__tab food-search__tab--common">Common</div>
+              <div class="food-search__tab food-search__tab--branded">Branded</div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+            <div class="food-search__item">
+              <img class="food-search__item__img" src="" alt="">
+              <div class="food-search__item__text"></div>
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="food-search__item">
-        <img class="food-search__item__img" src="" alt="">
-        <div class="food-search__item__text"></div>
-      </div>
-      <div class="food-search__item">
-        <img class="food-search__item__img" src="" alt="">
-        <div class="food-search__item__text"></div>
-      </div>
-      <div class="food-search__item">
-        <img class="food-search__item__img" src="" alt="">
-        <div class="food-search__item__text"></div>
-      </div>
-      <div class="food-search__item">
-        <img class="food-search__item__img" src="" alt="">
-        <div class="food-search__item__text"></div>
+      <div class="add-food__edit">
+        <div class="add-food__stats">
+          <div class="add-food__cals">234</div>
+          <div class="add-food__protein">12</div>
+        </div>
+        
+        <form action="/add-food" method="POST">
+          <img src="#" alt="" class="add-food__img">
+          <fieldset class="add-food__units">
+            <legend>Select metric:</legend>
+            <div class="add-food__unit">
+              <input type="radio" id="grams" name="metric" checked>
+              <label for="grams">g</label>
+            </div>
+            <div class="add-food__unit">
+              <input type="radio" id="cup" name="metric">
+              <label for="cup">cup</label>
+            </div>
+            <div class="add-food__unit">
+              <input type="radio" id="tbsp" name="metric">
+              <label for="cup">tbsp</label>
+            </div>
+            <div class="add-food__unit">
+              <input type="radio" id="tsp" name="metric">
+              <label for="cup">tsp</label>
+            </div>
+            <div class="add-food__unit">
+              <input type="radio" id="ml" name="metric">
+              <label for="cup">ml</label>
+            </div>
+          </fieldset>
+          <input type="number" id="number" name="number" value="0">
+          <button class="form__button" type="submit">Add</button>
+        </form>
       </div>
     </div>
-  </form>
-  
-  <div class="progress-bar"></div>
-</body>
+    
+  </body>
 </html>
