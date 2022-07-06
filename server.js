@@ -103,7 +103,6 @@ app.post('/update-profile', checkAuthenticated, (req, res) => {
   let sqlQuery = `UPDATE users 
                   SET firstname = ?, lastname = ?, email = ?
                   WHERE user_id = ?;`
-
   let userData = [req.body.firstname, req.body.lastname, req.body.email, req.user.user_id]
   db.query(sqlQuery, userData, (err, result) => {
     if (err){
@@ -115,7 +114,22 @@ app.post('/update-profile', checkAuthenticated, (req, res) => {
 })
 
 app.post('/add-food', checkAuthenticated, (req, res) => {
-  
+  console.log(req.body)
+  console.log(req.user)
+
+  // First check if food has ever been logged - COME BACK TO THIS
+
+  let sqlQuery = `INSERT INTO logged_foods (user_id, log_date, quantity, metric, protein, calories)
+                    VALUES (?, ?, ?, ?, ?, ?)`
+  let currentDate = new Date();
+  let newLog = [req.user.user_id, currentDate, req.body.amount, req.body.metric, req.body.protein, req.body.cals]
+  db.query(sqlQuery, newLog, (err, result) => {
+    if (err){
+      res.send(err)
+    } else {
+      res.redirect('/')
+    }
+  })
 })
 
 app.get('/api/searchbar-result/:term', (req, res) => {

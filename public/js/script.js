@@ -69,23 +69,25 @@ $(document).ready(function(){
     let response = await fetch(`http://localhost:3000/api/food-info/${foodName}`);
     let data = await response.json();
     selectedFoodPhoto[0].src = data.foods[0].photo.highres;
+    console.log(data);
     foodItemCals.text('0');
     foodItemProt.text('0');
     calPerGram = data.foods[0].nf_calories;
     protPerGram = data.foods[0].nf_protein;
+    $('#calsPer100Grams').val(calPerGram * 100);
+    $('#protPer100Grams').val(protPerGram * 100);
+    $('#name').val(data.foods[0].food_name);
     updateFoodInfo();
   });
 
   $('.add-food__units input').on('click', updateFoodInfo);
-  $('#number').on('input', updateFoodInfo);
+  $('#amount').on('input', updateFoodInfo);
 
   function updateFoodInfo(){
-    console.log('fired');
     const metric = $("input[type='radio'][name='metric']:checked")[0].getAttribute('id');
-    console.log(metric);
     let cals = 0;
     let protein = 0;
-    const quantity = $('#number').val();
+    const quantity = $('#amount').val();
     if (metric == 'grams'){
       cals = quantity * calPerGram;
       protein = quantity * protPerGram;
@@ -102,11 +104,11 @@ $(document).ready(function(){
       cals = 1 * quantity * calPerGram;
       protein = 1 * quantity * protPerGram;
     }
-    foodItemCals.text(cals);
-    foodItemProt.text(protein);
+    foodItemCals.val(Math.floor(cals));
+    foodItemProt.val(Math.floor(protein));
   }
 
-  
+
 });
 
 

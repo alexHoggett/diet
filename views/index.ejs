@@ -92,38 +92,42 @@
           </div>
         </form>
       </div>
-      <div class="add-food__edit">
-        <div class="add-food__stats">
-          <div class="add-food__cals">0</div>
-          <div class="add-food__protein">0</div>
-        </div>
-        
+      <div class="add-food__edit">        
         <form class="add-food__form" action="/add-food" method="POST">
+          <div class="add-food__stats">
+            <p>cals</p>
+            <input readonly="true" id="cals" name="cals" type="text" class="add-food__cals" value="0">
+            <p>prot</p>
+            <input readonly="true" id="protein" name="protein" type="text" class="add-food__protein" value="0">
+          </div>
           <img src="#" alt="" class="add-food__img">
           <fieldset class="add-food__units">
+            <input type="hidden" id="name" name="name" value="">
+            <input type="hidden" id="calsPer100Grams" name="calsPer100Grams" value="0">
+            <input type="hidden" id="protPer100Grams" name="protPer100Grams" value="0">
             <legend>Select metric:</legend>
             <div class="add-food__unit">
-              <input type="radio" id="grams" name="metric" checked>
+              <input type="radio" id="grams" name="metric" value="gram" checked>
               <label for="grams">g</label>
             </div>
             <div class="add-food__unit">
-              <input type="radio" id="cup" name="metric">
+              <input type="radio" id="cup" name="metric" value="cup">
               <label for="cup">cup</label>
             </div>
             <div class="add-food__unit">
-              <input type="radio" id="tbsp" name="metric">
-              <label for="cup">tbsp</label>
+              <input type="radio" id="tbsp" name="metric" value="tbsp">
+              <label for="tbsp">tbsp</label>
             </div>
             <div class="add-food__unit">
-              <input type="radio" id="tsp" name="metric">
-              <label for="cup">tsp</label>
+              <input type="radio" id="tsp" name="metric" value="tsp">
+              <label for="tsp">tsp</label>
             </div>
             <div class="add-food__unit">
-              <input type="radio" id="ml" name="metric">
-              <label for="cup">ml</label>
+              <input type="radio" id="ml" name="metric" value="ml">
+              <label for="ml">ml</label>
             </div>
           </fieldset>
-          <input type="number" id="number" name="number" value="0">
+          <input type="number" id="amount" name="amount" value="0">
           <button class="form__button" type="submit">Add</button>
         </form>
       </div>
