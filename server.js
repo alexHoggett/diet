@@ -56,7 +56,21 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
   // add checkAuthenticated when finished building
   // res.render('index.ejs', { name: req.user.firstname })
-  res.render('index.ejs', { name: 'alex' })
+
+  // Get today's date
+  const date = new Date();
+
+  const calories = caloriesOnDay(1, date)
+  const protein = proteinOnDay(1, date)
+  
+  res.render('index.ejs', {
+     name: 'alex',
+     day: date.getDate(),
+     month: date.getMonth(),
+     year: date.getFullYear(),
+     daysCalories: caloriesOnDay(1, date),
+     daysProtein: proteinOnDay(1, date)
+  })
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -97,8 +111,8 @@ app.get('/profile', checkAuthenticated, (req, res) => {
 })
 
 app.post('/update-profile', checkAuthenticated, (req, res) => {
-  console.log('params', req.body.firstname) // new data
-  console.log('body', req.user) // user data
+  // console.log('params', req.body.firstname) // new data
+  // console.log('body', req.user) // user data
 
   let sqlQuery = `UPDATE users 
                   SET firstname = ?, lastname = ?, email = ?
@@ -114,9 +128,6 @@ app.post('/update-profile', checkAuthenticated, (req, res) => {
 })
 
 app.post('/add-food', checkAuthenticated, (req, res) => {
-  console.log(req.body)
-  console.log(req.user)
-
   // First check if food has ever been logged - COME BACK TO THIS
 
   let sqlQuery = `INSERT INTO logged_foods (user_id, log_date, quantity, metric, protein, calories)
@@ -189,6 +200,52 @@ function checkNotAuthenticated(req, res, next) {
     return res.redirect('/')
   }
   next()
+}
+
+function proteinOnDay(userID, date){
+  // function to get total protein intake so far of the day
+  // date must be in dateTime format.
+
+  const startDate = date.toISOString().slice(0, 10)
+  date.setDate(date.getDate() + 1)
+  const endDate = date.toISOString().slice(0, 10)
+  
+  let sqlQuery = `SELECT SUM(protein)
+                  FROM logged_foods
+                  WHERE user_id = ? 
+                  AND log_date >= '${startDate} 00:00:00'
+                  AND log_date <= '${endDate} 00:00:00'
+                  `
+  db.query(sqlQuery, userID, (err, result) => {
+    if (err){
+      console.log(err)
+    } else {
+      return result
+    }
+  })
+}
+
+async function caloriesOnDay(userID, date){
+  // function to get total protein intake so far of the day
+  // date must be in dateTime format.
+
+  const startDate = date.toISOString().slice(0, 10)
+  date.setDate(date.getDate() + 1)
+  const endDate = date.toISOString().slice(0, 10)
+  
+  let sqlQuery = `SELECT SUM(calories)
+                  FROM logged_foods
+                  WHERE user_id = ? 
+                  AND log_date >= '${startDate} 00:00:00'
+                  AND log_date <= '${endDate} 00:00:00'
+                  `
+  db.query(sqlQuery, userID, (err, result) => {
+    if (err){
+      console.log(err)
+    } else {
+      return result
+    }
+  })
 }
 
 app.listen(3000)
