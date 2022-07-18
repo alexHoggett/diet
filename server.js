@@ -60,16 +60,27 @@ app.get('/', (req, res) => {
   // Get today's date
   const date = new Date();
 
-  const calories = caloriesOnDay(1, date)
-  const protein = proteinOnDay(1, date)
-  
-  res.render('index.ejs', {
-     name: 'alex',
-     day: date.getDate(),
-     month: date.getMonth(),
-     year: date.getFullYear(),
-     daysCalories: caloriesOnDay(1, date),
-     daysProtein: proteinOnDay(1, date)
+  let calories = 0
+  let protein = 0
+
+  proteinOnDay(1, date)
+    .then(function(result){
+      protein = result;
+      console.log(result)
+      return caloriesOnDay(1, date)
+    .then(function(result){
+      calories = result;
+      console.log(result)
+      
+      res.render('index.ejs', {
+        name: 'alex',
+        day: date.getDate(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
+        daysCalories: calories,
+        daysProtein: protein
+     })
+    }).catch((err) => setImmediate(() => { throw err; }));
   })
 })
 
@@ -206,45 +217,57 @@ function proteinOnDay(userID, date){
   // function to get total protein intake so far of the day
   // date must be in dateTime format.
 
-  const startDate = date.toISOString().slice(0, 10)
-  date.setDate(date.getDate() + 1)
-  const endDate = date.toISOString().slice(0, 10)
+  return new Promise(function(resolve, reject){
+    const dateCopy = new Date(date.getTime())
+    const startDate = dateCopy.toISOString().slice(0, 10)
+    dateCopy.setDate(dateCopy.getDate() + 1)
+    const endDate = dateCopy.toISOString().slice(0, 10)
   
-  let sqlQuery = `SELECT SUM(protein)
-                  FROM logged_foods
-                  WHERE user_id = ? 
-                  AND log_date >= '${startDate} 00:00:00'
-                  AND log_date <= '${endDate} 00:00:00'
-                  `
-  db.query(sqlQuery, userID, (err, result) => {
-    if (err){
-      console.log(err)
-    } else {
-      return result
-    }
+    let sqlQuery = `SELECT SUM(protein)
+                    FROM logged_foods
+                    WHERE user_id = ? 
+                    AND log_date >= '${startDate} 00:00:00'
+                    AND log_date <= '${endDate} 00:00:00'
+                    `
+    db.query(sqlQuery, userID, (err, result) => {
+      if (err){
+        return reject(err)
+      } else {
+        resolve(result[0][Object.keys(result[0])[0]])
+      }
+    })
   })
+
+  
 }
 
 async function caloriesOnDay(userID, date){
-  // function to get total protein intake so far of the day
+  // function to get total calorie intake so far of the day
   // date must be in dateTime format.
 
-  const startDate = date.toISOString().slice(0, 10)
-  date.setDate(date.getDate() + 1)
-  const endDate = date.toISOString().slice(0, 10)
+  console.log(userID, date)
+
+  return new Promise(function(resolve, reject){
+    const dateCopy = new Date(date.getTime())
+    const startDate = dateCopy.toISOString().slice(0, 10)
+    dateCopy.setDate(dateCopy.getDate() + 1)
+    const endDate = dateCopy.toISOString().slice(0, 10)
   
-  let sqlQuery = `SELECT SUM(calories)
-                  FROM logged_foods
-                  WHERE user_id = ? 
-                  AND log_date >= '${startDate} 00:00:00'
-                  AND log_date <= '${endDate} 00:00:00'
-                  `
-  db.query(sqlQuery, userID, (err, result) => {
-    if (err){
-      console.log(err)
-    } else {
-      return result
-    }
+    let sqlQuery = `SELECT SUM(calories)
+                    FROM logged_foods
+                    WHERE user_id = ? 
+                    AND log_date >= '${startDate} 00:00:00'
+                    AND log_date <= '${endDate} 00:00:00'
+                    `
+    console.log(sqlQuery)
+    db.query(sqlQuery, userID, (err, result) => {
+      if (err){
+        return reject(err)
+      } else {
+        console.log(result)
+        resolve(result[0][Object.keys(result[0])[0]])
+      }
+    })
   })
 }
 
