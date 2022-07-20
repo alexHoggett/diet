@@ -53,7 +53,7 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
+app.get('/', checkAuthenticated, (req, res) => {
   // add checkAuthenticated when finished building
   // res.render('index.ejs', { name: req.user.firstname })
 
@@ -66,16 +66,21 @@ app.get('/', (req, res) => {
   proteinOnDay(1, date)
     .then(function(result){
       protein = result;
-      console.log(result)
       return caloriesOnDay(1, date)
     .then(function(result){
       calories = result;
-      console.log(result)
+
+      if (protein == null) protein = 0;
+      if (calories == null) calories = 0;
+      
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
       
       res.render('index.ejs', {
         name: 'alex',
         day: date.getDate(),
-        month: date.getMonth(),
+        month: monthNames[date.getMonth()],
         year: date.getFullYear(),
         daysCalories: calories,
         daysProtein: protein
@@ -245,8 +250,6 @@ async function caloriesOnDay(userID, date){
   // function to get total calorie intake so far of the day
   // date must be in dateTime format.
 
-  console.log(userID, date)
-
   return new Promise(function(resolve, reject){
     const dateCopy = new Date(date.getTime())
     const startDate = dateCopy.toISOString().slice(0, 10)
@@ -259,12 +262,10 @@ async function caloriesOnDay(userID, date){
                     AND log_date >= '${startDate} 00:00:00'
                     AND log_date <= '${endDate} 00:00:00'
                     `
-    console.log(sqlQuery)
     db.query(sqlQuery, userID, (err, result) => {
       if (err){
         return reject(err)
       } else {
-        console.log(result)
         resolve(result[0][Object.keys(result[0])[0]])
       }
     })

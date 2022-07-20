@@ -10,6 +10,7 @@ $(document).ready(function(){
   const selectedFoodPhoto = $('.add-food__img');
   const foodItemCals = $('.add-food__cals');
   const foodItemProt = $('.add-food__protein');
+  const selectedName = $('.add-food__name');
 
   let calPerGram = 0;
   let protPerGram = 0;
@@ -77,6 +78,7 @@ $(document).ready(function(){
     $('#calsPer100Grams').val(calPerGram * 100);
     $('#protPer100Grams').val(protPerGram * 100);
     $('#name').val(data.foods[0].food_name);
+    $('.add-food__name').text(data.foods[0].food_name);
     updateFoodInfo();
   });
 
