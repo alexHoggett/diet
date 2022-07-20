@@ -40,5 +40,9 @@
     "node-fetch": "^3.2.4",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0"
+  },
+
+  "engines": {
+    "node": "v16.13.2"
   }
 }
