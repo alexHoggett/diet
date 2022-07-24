@@ -14,10 +14,10 @@ const methodOverride = require('method-override')
 const axios = require('axios')
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'tenderStem34',
-  database: 'dietapp'
+  host: 'eu-cdbr-west-03.cleardb.net', 
+  user: 'b1d82287da1b15',
+  password: '3a22a215',
+  database: 'heroku_29350bebafd1cb9'
 })
 
 db.connect((err) => {
