@@ -6,27 +6,28 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
-const mysql = require('mysql2')
+// const mysql = require('mysql2')
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 const axios = require('axios')
+var connectionRequest = require('./connectionRequest.js')
 
-const db = mysql.createConnection({
-  host: 'eu-cdbr-west-03.cleardb.net', 
-  user: 'b1d82287da1b15',
-  password: '3a22a215',
-  database: 'heroku_29350bebafd1cb9'
-})
+// const db = mysql.createConnection({
+//   host: 'eu-cdbr-west-03.cleardb.net', 
+//   user: 'b1d82287da1b15',
+//   password: '3a22a215',
+//   database: 'heroku_29350bebafd1cb9'
+// })
 
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Connected to the database');
-})
-global.db = db;
+// db.connect((err) => {
+//   if (err) {
+//     throw err;
+//   }
+//   console.log('Connected to the database');
+// })
+// global.db = db;
 
 
 // const getEmail = async function(email, callback) {
@@ -73,9 +74,7 @@ app.get('/', checkAuthenticated, (req, res) => {
       if (protein == null) protein = 0;
       if (calories == null) calories = 0;
       
-      const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       
       res.render('index.ejs', {
         name: 'alex',
@@ -104,17 +103,22 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 })
 
 app.post('/register', checkNotAuthenticated, async (req, res) => {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    let sqlQuery = `INSERT INTO users (firstname, lastname, email, password)
-                    VALUES (?, ?, ?, ?)`
-    let newUser = [req.body.firstname, req.body.lastname, req.body.email, hashedPassword]
-    db.query(sqlQuery, newUser, (err, result) => {
-      if (err){
-        res.redirect('/register')
-      } else{
-        res.redirect('/login')
-      }
-    })
+  const hashedPassword = await bcrypt.hash(req.body.password, 10)
+  let connection = connectionRequest();
+  let sqlQuery = `INSERT INTO users (firstname, lastname, email, password)
+                  VALUES (?, ?, ?, ?)`
+  let newUser = [req.body.firstname, req.body.lastname, req.body.email, hashedPassword]
+  connection.query(sqlQuery, newUser, (err, result) => {
+    if (err){
+      connection.destroy();
+      res.redirect('/register')
+      
+    } else{
+      connection.destroy();
+      res.redirect('/login')
+      
+    }
+  })
 })
 
 app.delete('/logout', (req, res) => {
@@ -129,15 +133,18 @@ app.get('/profile', checkAuthenticated, (req, res) => {
 app.post('/update-profile', checkAuthenticated, (req, res) => {
   // console.log('params', req.body.firstname) // new data
   // console.log('body', req.user) // user data
+  let connection = connectionRequest()
 
   let sqlQuery = `UPDATE users 
                   SET firstname = ?, lastname = ?, email = ?
                   WHERE user_id = ?;`
   let userData = [req.body.firstname, req.body.lastname, req.body.email, req.user.user_id]
-  db.query(sqlQuery, userData, (err, result) => {
+  connection.query(sqlQuery, userData, (err, result) => {
     if (err){
+      connection.destroy()
       res.redirect('/profile')
     } else{
+      connection.destroy()
       res.redirect('/')
     }
   })
@@ -145,15 +152,18 @@ app.post('/update-profile', checkAuthenticated, (req, res) => {
 
 app.post('/add-food', checkAuthenticated, (req, res) => {
   // First check if food has ever been logged - COME BACK TO THIS
+  let connection = connectionRequest()
 
   let sqlQuery = `INSERT INTO logged_foods (user_id, log_date, quantity, metric, protein, calories)
                     VALUES (?, ?, ?, ?, ?, ?)`
   let currentDate = new Date();
   let newLog = [req.user.user_id, currentDate, req.body.amount, req.body.metric, req.body.protein, req.body.cals]
-  db.query(sqlQuery, newLog, (err, result) => {
+  connection.query(sqlQuery, newLog, (err, result) => {
     if (err){
+      connection.destroy()
       res.send(err)
     } else {
+      connection.destroy()
       res.redirect('/')
     }
   })
@@ -223,6 +233,7 @@ function proteinOnDay(userID, date){
   // date must be in dateTime format.
 
   return new Promise(function(resolve, reject){
+    let connection = connectionRequest()
     const dateCopy = new Date(date.getTime())
     const startDate = dateCopy.toISOString().slice(0, 10)
     dateCopy.setDate(dateCopy.getDate() + 1)
@@ -234,16 +245,16 @@ function proteinOnDay(userID, date){
                     AND log_date >= '${startDate} 00:00:00'
                     AND log_date <= '${endDate} 00:00:00'
                     `
-    db.query(sqlQuery, userID, (err, result) => {
+    connection.query(sqlQuery, userID, (err, result) => {
       if (err){
+        connection.destroy()
         return reject(err)
       } else {
+        connection.destroy()
         resolve(result[0][Object.keys(result[0])[0]])
       }
     })
   })
-
-  
 }
 
 async function caloriesOnDay(userID, date){
@@ -251,6 +262,7 @@ async function caloriesOnDay(userID, date){
   // date must be in dateTime format.
 
   return new Promise(function(resolve, reject){
+    connection = connectionRequest()
     const dateCopy = new Date(date.getTime())
     const startDate = dateCopy.toISOString().slice(0, 10)
     dateCopy.setDate(dateCopy.getDate() + 1)
@@ -262,10 +274,12 @@ async function caloriesOnDay(userID, date){
                     AND log_date >= '${startDate} 00:00:00'
                     AND log_date <= '${endDate} 00:00:00'
                     `
-    db.query(sqlQuery, userID, (err, result) => {
+    connection.query(sqlQuery, userID, (err, result) => {
       if (err){
+        connection.destroy()
         return reject(err)
       } else {
+        connection.destroy()
         resolve(result[0][Object.keys(result[0])[0]])
       }
     })
